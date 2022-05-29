@@ -15,11 +15,6 @@ function Ball:load()
 end
 
 function Ball:update(dt)
-    -- if love.keyboard.isDown("space") and not self.active then
-    --     self.active = true
-    --     self:playBall(round_winner)
-    -- end
-
     if self.active then
         self:moveBall(dt)
 
@@ -39,6 +34,7 @@ function Ball:keypressed(key)
 end
 
 function Ball:resetBall()
+    self.speed = 400
     self.active = false
     self.x = SCREEN_WIDTH / 2 - BALL_SIZE / 2
     self.y = SCREEN_HEIGHT / 2 - BALL_SIZE / 2
@@ -106,6 +102,7 @@ end
 
 function Ball:checkPaddleCollision(paddle)
     if self.x < paddle.x + paddle.width and self.x + self.width > paddle.x and self.y < paddle.y + paddle.height and self.y + self.height > paddle.y then
+        self.speed = self.speed + 20
         self.dirX = self.dirX * -1
     end
 end
