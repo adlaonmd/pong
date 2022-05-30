@@ -13,8 +13,14 @@ local titleTextHeight = titleFont:getHeight()
 local playTextWidth = playFont:getWidth(playText)
 local playTextHeight = playFont:getHeight()
 
-function Title:load()
+local sounds = {}
+sounds.blip = love.audio.newSource("sounds/menu_press.wav", "static")
+sounds.bgm = love.audio.newSource("sounds/title_bgm.mp3", "stream")
+sounds.bgm:setLooping(true)
 
+function Title:load()
+    sounds.bgm:setVolume(0.5)
+    sounds.bgm:play()
 end
 
 function Title:update(dt)
@@ -30,6 +36,8 @@ end
 
 function Title:keypressed(key)
     if key == "return" then
+        sounds.blip:play()
+        sounds.bgm:stop()
         screen_manager:changeScreen("game")
     end
 end

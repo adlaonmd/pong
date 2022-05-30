@@ -2,6 +2,12 @@ local Ball = {}
 
 local round_winner = 0
 
+local sounds = {}
+sounds.blip = love.audio.newSource("sounds/menu_press.wav", "static")
+sounds.wallHit = love.audio.newSource("sounds/wall_hit.wav", "static")
+sounds.paddleHit = love.audio.newSource("sounds/paddle_hit.wav", "static")
+sounds.scored = love.audio.newSource("sounds/score.wav", "static")
+
 function Ball:load()
     self:resetBall()
     self.width = BALL_SIZE
@@ -28,6 +34,7 @@ end
 
 function Ball:keypressed(key)
     if key == "return" and not self.active then
+        sounds.blip:play()
         self.active = true
         self:playBall(round_winner)
     end
@@ -77,9 +84,11 @@ end
 function Ball:checkWallCollisions()
     --TOP AND BOTTOM WALL COLLISION
     if self.y < 0 then
+        sounds.wallHit:play()
         self.y = 0
         self.dirY = self.dirY * -1
     elseif self.y + self.height > SCREEN_HEIGHT then
+        sounds.wallHit:play()
         self.y = SCREEN_HEIGHT - self.height
         self.dirY = self.dirY * -1
     end
@@ -90,10 +99,12 @@ end
 
 function Ball:playerScored()
     if self.x < 0 then
+        sounds.scored:play()
         round_winner = 2
         Player2Score = Player2Score + 1
         self:resetBall()
     elseif self.x + self.width > SCREEN_WIDTH then
+        sounds.scored:play()
         round_winner = 1
         Player1Score = Player1Score + 1
         self:resetBall()
@@ -102,6 +113,7 @@ end
 
 function Ball:checkPaddleCollision(paddle)
     if self.x < paddle.x + paddle.width and self.x + self.width > paddle.x and self.y < paddle.y + paddle.height and self.y + self.height > paddle.y then
+        sounds.paddleHit:play()
         self.speed = self.speed + 20
         self.dirX = self.dirX * -1
     end

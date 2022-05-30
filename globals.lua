@@ -9,6 +9,6 @@ PADDLE_HEIGHT = 80
 Player1Score = 0
 Player2Score = 0
 
-WinningScore = 13
+WinningScore = 2
 
 Winner = ""

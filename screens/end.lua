@@ -12,8 +12,12 @@ local winnerTextHeight = winnerFont:getHeight()
 local playAgainTextWidth = playAgainFont:getWidth(PlayAgainText)
 local playAgainTextHeight = playAgainFont:getHeight()
 
-function End:load()
+local sounds = {}
+sounds.bgm = love.audio.newSource("sounds/end_bgm.mp3", "stream")
+sounds.bgm:setLooping(true)
 
+function End:load()
+    sounds.bgm:play()
 end
 
 function End:update(dt)
@@ -29,6 +33,7 @@ end
 
 function End:keypressed(key)
     if key == "return" then
+        sounds.bgm:stop()
         screen_manager:changeScreen("game")
     end
 end

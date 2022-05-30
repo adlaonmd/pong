@@ -13,7 +13,14 @@ local scoreFont = love.graphics.newFont(64)
 local player1ScoreTextWidth = 0
 local player2ScoreTextWidth = 0
 
+local sounds = {}
+sounds.bgm = love.audio.newSource("sounds/game_bgm.mp3", "stream")
+sounds.bgm:setLooping(true)
+
 function Game:load()
+    sounds.bgm:setVolume(0.5)
+    sounds.bgm:play()
+
     Player1Score = 0
     Player2Score = 0
 
@@ -58,6 +65,7 @@ function Game:checkWinner()
             Winner = "Player 2 win!"
         end
 
+        sounds.bgm:stop()
         screen_manager:changeScreen("end")
     end
 end
