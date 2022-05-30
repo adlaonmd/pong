@@ -52,20 +52,13 @@ end
 function Ball:playBall(play_ball)
     local play_ball = play_ball or 0
 
-    -- local randY = love.math.random(-1, 1)
-    -- while randY == 0 do
-    --     randY = love.math.random(-1, 1)
-    -- end
-
     if play_ball == 0 then
         local randX = love.math.random(-1, 1)
-
         while randX == 0 do
             randX = love.math.random(-1, 1)
         end
-
-
         self.dirX = randX
+
     elseif play_ball == 1 then
         self.dirX = 1
     elseif play_ball == 2 then
@@ -135,13 +128,16 @@ end
 function Ball:checkPaddleCollision(paddle)
     if self.x < paddle.x + paddle.width and self.x + self.width > paddle.x and self.y < paddle.y + paddle.height and self.y + self.height > paddle.y then
         sounds.paddleHit:play()
-        self.speed = self.speed + 20
         self.dirX = self.dirX * -1
 
         local middle_paddle = paddle.y + paddle.height / 2
         local middle_ball = self.y + self.height / 2
-        local velY = (middle_ball - middle_paddle) / (paddle.height / 2)
+        local y_difference = middle_ball - middle_paddle
+        local reduction_factor = paddle.height / 2
+        local velY = y_difference / reduction_factor
         self.dirY = velY
+
+        self.speed = self.speed + 20
     end
 end
 
