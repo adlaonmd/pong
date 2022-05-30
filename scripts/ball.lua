@@ -52,10 +52,10 @@ end
 function Ball:playBall(play_ball)
     local play_ball = play_ball or 0
 
-    local randY = love.math.random(-1, 1)
-    while randY == 0 do
-        randY = love.math.random(-1, 1)
-    end
+    -- local randY = love.math.random(-1, 1)
+    -- while randY == 0 do
+    --     randY = love.math.random(-1, 1)
+    -- end
 
     if play_ball == 0 then
         local randX = love.math.random(-1, 1)
@@ -72,7 +72,7 @@ function Ball:playBall(play_ball)
         self.dirX = -1
     end
 
-    self.dirY = randY
+    self.dirY = 0
 end
 
 function Ball:moveBall(dt)
@@ -137,6 +137,11 @@ function Ball:checkPaddleCollision(paddle)
         sounds.paddleHit:play()
         self.speed = self.speed + 20
         self.dirX = self.dirX * -1
+
+        local middle_paddle = paddle.y + paddle.height / 2
+        local middle_ball = self.y + self.height / 2
+        local velY = (middle_ball - middle_paddle) / (paddle.height / 2)
+        self.dirY = velY
     end
 end
 
