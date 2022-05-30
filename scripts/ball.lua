@@ -7,6 +7,8 @@ sounds.blip = love.audio.newSource("sounds/menu_press.wav", "static")
 sounds.wallHit = love.audio.newSource("sounds/wall_hit.wav", "static")
 sounds.paddleHit = love.audio.newSource("sounds/paddle_hit.wav", "static")
 sounds.scored = love.audio.newSource("sounds/score.wav", "static")
+sounds.matchPoint = love.audio.newSource("sounds/match_point.mp3", "static")
+sounds.suddenDeath = love.audio.newSource("sounds/sudden_death.mp3", "static")
 
 function Ball:load()
     self:resetBall()
@@ -102,12 +104,31 @@ function Ball:playerScored()
         sounds.scored:play()
         round_winner = 2
         Player2Score = Player2Score + 1
+        self:matchPoint()
+        self:suddenDeath()
         self:resetBall()
     elseif self.x + self.width > SCREEN_WIDTH then
         sounds.scored:play()
         round_winner = 1
         Player1Score = Player1Score + 1
+        self:matchPoint()
+        self:suddenDeath()
         self:resetBall()
+    end
+end
+
+function Ball:suddenDeath()
+    if Player1Score == WinningScore - 1 and Player2Score == WinningScore - 1 then
+        sounds.suddenDeath:play()
+    end
+end
+
+function Ball:matchPoint()
+    if Player1Score == WinningScore - 1 and Player1Score > Player2Score then
+        sounds.matchPoint:play()
+
+    elseif Player2Score == WinningScore - 1 and Player2Score > Player1Score then
+        sounds.matchPoint:play()
     end
 end
 

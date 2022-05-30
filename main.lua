@@ -18,11 +18,5 @@ function love.draw()
 end
 
 function love.keypressed(key)
-    if key == "escape" then
-        screen_manager:changeScreen("title")
-    elseif key == "f5" then
-        love.event.quit("restart")
-    end
-
     if screen_manager.keypressed then screen_manager:keypressed(key) end
 end

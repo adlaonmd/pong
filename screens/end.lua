@@ -32,7 +32,10 @@ function End:draw()
 end
 
 function End:keypressed(key)
-    if key == "return" then
+    if key == "escape" then
+        sounds.bgm:stop()
+        screen_manager:changeScreen("title")
+    elseif key == "return" then
         sounds.bgm:stop()
         screen_manager:changeScreen("game")
     end
